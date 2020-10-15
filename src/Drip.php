@@ -6,7 +6,8 @@ class Drip
 {
     protected static $eventSubscriptions = [];
     protected static $receivedWebhook    = false;
-    protected        $api_endpoint       = 'https://api.getdrip.com/v2';
+    protected        $api_endpoint       = 'https://api.getdrip.com/';
+    protected        $api_version        = 'v2';
     protected        $token              = false;
     protected        $accountID          = null;
     protected        $verify_ssl         = true;
@@ -89,6 +90,18 @@ class Drip
     public function setAccountId($accountID)
     {
         $this->accountID = $accountID;
+    }
+
+    /**
+     * Set API endpoint version
+     *
+     * @param string $api_version
+     *
+     * @return void
+     */
+    public function setApiVersion($api_version)
+    {
+        $this->api_version = $api_version;
     }
 
     /**
@@ -175,7 +188,7 @@ class Drip
             throw new DripException("This method requires an account ID and none has been set.", 2);
         }
 
-        return $this->api_endpoint . '/' . $this->accountID . '/' . $api_method;
+        return $this->api_endpoint . $this->api_version . '/' . $this->accountID . '/' . $api_method;
     }
 
     /**
@@ -249,7 +262,7 @@ class Drip
      */
     public function getGlobal($api_method, $args = [], $timeout = 10)
     {
-        $url = $this->api_endpoint . '/' . $api_method;
+        $url = $this->api_endpoint . $this->api_version . '/' . $api_method;
         return $this->makeRequest('get', $api_method, $args, $timeout, $url);
     }
 
