@@ -138,6 +138,11 @@ class Drip
         $url = $this->constructRequestUrl($url, $api_method);
         $ch  = $this->createCurlSession($url, $timeout);
 
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Accept: application/json',
+            'Content-Type: application/json',
+        ]);
+
         switch ($http_verb) {
             case 'post':
                 curl_setopt($ch, CURLOPT_POST, 1);
